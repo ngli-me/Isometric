@@ -1,9 +1,9 @@
-extends KinematicBody
+extends CharacterBody3D
 
 const ACCEL_DEFAULT = 10 # Normal Acceleration
 const ACCEL_AIR = 1 # Acceleration in Air
 
-onready var accel = ACCEL_DEFAULT
+@onready var accel = ACCEL_DEFAULT
 var speed = 10
 var gravity = 20
 var jump = 8
@@ -12,7 +12,7 @@ var rotationSpeed = 4
 var snap
 
 var direction = Vector3()
-var velocity = Vector3()
+#var velocity = Vector3()
 var gravityVec = Vector3()
 var movement = Vector3()
 
@@ -29,7 +29,7 @@ func _ready():
 
 func _input(event):
 	if (event is InputEventMouseMotion and mouseCaptured == true):
-		self.rotate_y(deg2rad(-event.relative.x * mouseSensi))
+		self.rotate_y(deg_to_rad(-event.relative.x * mouseSensi))
 
 func _process(delta):
 	if (Input.is_action_just_pressed("ui_cancel")):
@@ -46,9 +46,9 @@ func _physics_process(delta):
 
 	if (mouseCaptured == true):
 		if (Input.is_action_pressed("rotLeft")):
-			self.rotate_y(deg2rad(rotationSpeed))
+			self.rotate_y(deg_to_rad(rotationSpeed))
 		elif (Input.is_action_pressed("rotRight")):
-			self.rotate_y(deg2rad(-rotationSpeed))
+			self.rotate_y(deg_to_rad(-rotationSpeed))
 	else:
 		fInput = 0
 		hInput = 0
@@ -69,8 +69,11 @@ func _physics_process(delta):
 		gravityVec = Vector3.UP * jump
 
 	# Move
-	velocity = velocity.linear_interpolate(direction * speed, accel * delta)
+	velocity = velocity.lerp(direction * speed, accel * delta)
 	movement = velocity + gravityVec
 
 	# warning-ignore:return_value_discarded
-	move_and_slide_with_snap(movement, snap, Vector3.UP)
+	set_velocity(movement)
+	# TODOConverter3To4 looks that snap in Godot 4 is float, not vector like in Godot 3 - previous value `snap`
+	set_up_direction(Vector3.UP)
+	move_and_slide()
