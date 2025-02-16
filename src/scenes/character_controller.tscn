@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dfqrbru7gr33v"]
+
+[ext_resource type="Script" path="res://scripts/character_controller.gd" id="1_t0cst"]
+[ext_resource type="Script" path="res://scripts/character_controller/movement.gd" id="2_6p3a6"]
+[ext_resource type="Script" path="res://scripts/jump.gd" id="3_yu8o1"]
+
+[node name="CharacterController" type="Node"]
+script = ExtResource("1_t0cst")
+
+[node name="Movement" type="Node" parent="."]
+script = ExtResource("2_6p3a6")
+
+[node name="Jump" type="Node" parent="."]
+script = ExtResource("3_yu8o1")
