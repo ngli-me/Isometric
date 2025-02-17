@@ -1,8 +1,8 @@
 extends Node
 
-@export var max_speed: = 15.0
 @export var acceleration:= 50
 @export var gravity: = -30.0
+@export var max_speed: = 15.0
 @export var snap_length := 0.5
 @export var do_stop_on_slope := true
 
@@ -17,14 +17,9 @@ var velocity: Vector3:
 	set(value):
 		player.velocity = value
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("Movement controller ", self.name, " is waiting for owner ", self.owner.name)
-	await self.owner.ready
-	
 	character_controller = owner
 	player = character_controller.get_parent()
-	print("%s is Ready"%self.name)
 
 func _physics_process(delta: float) -> void:
 	_update_player_input()
@@ -35,7 +30,6 @@ func _physics_process(delta: float) -> void:
 	_update_velocity(delta)
 	player.floor_snap_length = snap_length
 	player.floor_stop_on_slope = do_stop_on_slope
-	player.move_and_slide()
 
 func _update_player_input():
 	var input = Input.get_vector("mv_west_rel", "mv_east_rel", "mv_north_rel", "mv_south_rel")
@@ -45,7 +39,7 @@ func _update_player_input():
 	_player_input = player.camera.global_transform.basis * (_player_input)
 	_player_input.y = 0
 	# remove the following if you want character to be slower with how much you push the joystick
-	_player_input = _player_input.normalized()
+	# _player_input = _player_input.normalized()
 	
 func _update_velocity(delta: float):
 	var y_velocity := velocity.y

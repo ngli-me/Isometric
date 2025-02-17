@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bk7bkcaws1idt"]
+
+[ext_resource type="Script" path="res://scripts/cam_pivot.gd" id="1_cs2sv"]
+
+[node name="CamPivot" type="Node3D"]
+script = ExtResource("1_cs2sv")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, -50, 70, 50)
+projection = 1
+current = true
+size = 30.0
+far = 1500.0
